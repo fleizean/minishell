@@ -59,6 +59,6 @@ to the error output
 - Can use Libft
 - Handle program interruption (Ctrl + D)
 
-### My Partner
+### My Partner
 
-(fyurtsev)[https://github.com/fyurtsev]
+<b>(fyurtsev)[https://github.com/fyurtsev]</b>
