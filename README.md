@@ -34,6 +34,8 @@ function brew_install()
 
 2. Close your current terminal, re-open and write brew_install in your terminal. Wait for it to end!
 3. Finally you can go where u cloned this project and you can execute like this `./minishell`
+4. Don't forget if you switch to another computer on campus you must write again `brew_install` for installion.
+
 
 ### Mandatory
 
