@@ -23,12 +23,16 @@ The only requirements are:
 1. Open terminal and go HOME with `cd ~`, write this `vim .zshrc` and add this code:
 
 `
-  function brew_install()
+function brew_install()
+
 {
+	
 	cd /goinfre
 	mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+	
 	cd homebrew/bin && ./brew install readline
 }
+
 `
 
 2. Close your current terminal, re-open and write brew_install in your terminal. Wait for it to end!
