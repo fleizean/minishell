@@ -21,6 +21,7 @@ The only requirements are:
 ### Building the program
 
 1. Open terminal and go HOME with `cd ~`, write this `vim .zshrc` and add this code:
+
 `
   function brew_install()
 {
@@ -29,5 +30,6 @@ The only requirements are:
 	cd homebrew/bin && ./brew install readline
 }
 `
+
 2. Close your current terminal, re-open and write brew_install in your terminal. Wait for it to end!
 3. Finally you can go where u cloned this project and you can execute like this `./minishell`
