@@ -63,4 +63,4 @@ to the error output
 
 ### My Partner
 
-<b>(fyurtsev)[https://github.com/fyurtsev]</b>
+<b[fyurtsev](https://github.com/fyurtsev)</b>
