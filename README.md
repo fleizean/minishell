@@ -64,8 +64,7 @@ to the error output
 ### Some Issues and How Did ve Fixed it
 If we have solved it, it will appear as drawn, if we have not solved it, only the problem will be written.
 
-- Firstly if u write only "unset" terminal will suppress segmentation fault to screen. The solution is simple, I will do it when I am available. We need to check if in the unset part, just it!
-- 
+- ✅ Firstly if u write only "unset" terminal will suppress segmentation fault to screen. The solution is simple, I will do it when I am available. We need to check if in the unset part, just it!
 
 
 ### My Partner
