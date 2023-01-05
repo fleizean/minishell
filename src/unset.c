@@ -6,7 +6,7 @@
 /*   By: eyagiz <eyagiz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 18:04:19 by eyagiz            #+#    #+#             */
-/*   Updated: 2022/12/12 14:19:16 by eyagiz           ###   ########.fr       */
+/*   Updated: 2023/01/05 19:20:28 by eyagiz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ void	unset_handle(char *str)
 	int		j;
 	char	**s;
 	char	*sub;
-	int		len;
+	char	**tmp;
 
-	len = ft_strlen(str);
-	sub = ft_substr(str, 6, len - 6);
+	tmp = ft_split(str, ' ');
+	sub = ft_substr(str, 6, ft_strlen(str) - 6);
 	s = ft_split(sub, ' ');
 	i = -1;
+	if(tmp[0] != NULL && tmp[1] == NULL)
+		return;
 	while (s[++i])
 	{
 		j = get_index(s[i]);
