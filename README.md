@@ -1,11 +1,11 @@
 # Minishell - @42Kocaeli
 
 <p align="center">
-    <img src="https://img.shields.io/github/languages/count/fleizean/inception?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/last-commit/fleizean/inception?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/forks/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/languages/count/fleizean/minishell?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/last-commit/fleizean/minishell?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/forks/fleizean/minishell?style=for-the-badge"/>
     <img src="https://img.shields.io/github/followers/fleizean?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/watchers/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/watchers/fleizean/minishell?style=for-the-badge"/>
     <img src="https://img.shields.io/badge/Partner-fyurtsev-red?style=for-the-badge&logo=appveyor"/>
 </p>
 
