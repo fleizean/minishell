@@ -1,6 +1,13 @@
 # Minishell - @42Kocaeli
 
-<b> beauty minishell made by eyagiz and fyurtsev </b>
+<p align="center">
+    <img src="https://img.shields.io/github/languages/count/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/last-commit/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/forks/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/followers/fleizean?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/watchers/fleizean/inception?style=for-the-badge"/>
+    <img src="https://img.shields.io/badge/Partner-fyurtsev-red?style=for-the-badge&logo=appveyor"/>
+</p>
 
 https://user-images.githubusercontent.com/66090171/207823446-38c2ed2c-d099-4bc4-a5c5-cd676af1a08c.mov
 
@@ -65,8 +72,3 @@ to the error output
 If we have solved it, it will appear as drawn, if we have not solved it, only the problem will be written.
 
 - ✅ Firstly if u write only "unset" terminal will suppress segmentation fault to screen. The solution is simple, I will do it when I am available. We need to check if in the unset part, just it!
-
-
-### My Partner
-
-<b>[fyurtsev](https://github.com/fyurtsev)</b>
