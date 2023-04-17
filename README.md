@@ -9,11 +9,11 @@
     <img src="https://img.shields.io/badge/Partner-fyurtsev-red?style=for-the-badge&logo=appveyor"/>
 </p>
 
+https://user-images.githubusercontent.com/66090171/207823446-38c2ed2c-d099-4bc4-a5c5-cd676af1a08c.mov
+
 <p align="center">
     <img src="https://badge42.vercel.app/api/v2/cl13ejq4y000909mke5sxpjan/stats?cursusId=21&coalitionId=233"/>
 </p>
-
-https://user-images.githubusercontent.com/66090171/207823446-38c2ed2c-d099-4bc4-a5c5-cd676af1a08c.mov
 
 ## About
 
