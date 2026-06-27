@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eyagiz <eyagiz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eyagiz <eyagiz@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/23 18:02:46 by eyagiz            #+#    #+#             */
-/*   Updated: 2022/12/13 14:16:41 by eyagiz           ###   ########.fr       */
+/*   Created: 2026/06/27 02:26:32 by eyagiz            #+#    #+#             */
+/*   Updated: 2026/06/27 02:27:02 by eyagiz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,161 +24,174 @@
 # include <readline/history.h>
 # include <sys/stat.h>
 # include <signal.h>
+# include <errno.h>
 
-# define TMP_FILE "./text.txt"
-# define CYAN "\001\033[1;36m\002"
-# define WHITE "\001\033[0m\002"
-# define GREEN "\001\033[1;32m\002"
+# define PROMPT_CLR "\001\033[1;36m\002"
+# define RESET_CLR "\001\033[0m\002"
+# define ERR_CLR "\033[0;31m"
 # define RED "\033[0;31m"
+# define GREEN "\033[1;32m"
 
+/*
+** kept for libft compatibility (ft_lstnew.c / ft_lstadd_back.c use t_list)
+** not used by minishell's own logic anymore
+*/
 typedef struct s_list
 {
-	void			*next;
-	char			*data;
-}					t_list;
+	void	*next;
+	char	*data;
+}	t_list;
 
-typedef struct s_temp_var
+typedef struct s_shell
 {
-	int		i;
-	int		j;
-	int		k;
-	int		t;
-	int		l;
-	int		flag;
+	char	**env;
+	int		exit_status;
+}	t_shell;
 
-	char	*s;
-	char	*tmp;
-	char	*tmp1;
-	char	*tmp2;
-	char	*tmp3;
-	char	*tmp4;
-	char	*tmp5;
-	char	**tmp_2ar;
-}			t_temp_var;
-
-typedef struct s_pipe_var
+typedef enum e_tok_type
 {
-	t_list	*temp;
-	pid_t	pid;
-	int		*fd;
-	int		i;
-	int		j;
-	char	**cmd;
-	char	*path;
-}			t_pipe_var;
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_REDIR_IN,
+	TOK_REDIR_OUT,
+	TOK_REDIR_APPEND,
+	TOK_HEREDOC
+}	t_tok_type;
 
-typedef struct t_utils
+typedef struct s_token
 {
-	int				quote_flag;
-	int				n_flag;
-}			t_utils;
+	t_tok_type		type;
+	char			*text;
+	struct s_token	*next;
+}	t_token;
 
-typedef struct s_env
+typedef enum e_redir_type
 {
-	char			**env;
-	int				exit_status;
-}			t_env;
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
+}	t_redir_type;
 
-typedef struct s_redir_var
+typedef struct s_redir
 {
-	char	*temp;
-	int		fd;
-	int		k;
-	int		flags;
-	char	*file;
-	int		j;
-	int		m;
+	t_redir_type	type;
+	char			*target;
+	int				literal;
+	int				fd;
+	struct s_redir	*next;
+}	t_redir;
 
-}			t_redir_var;
+typedef struct s_cmd
+{
+	char			**argv;
+	t_redir			*redirs;
+	struct s_cmd	*next;
+}	t_cmd;
 
-t_env	g_list;
+typedef struct s_pipe_ctx
+{
+	int	*fds;
+	int	n;
+	int	idx;
+}	t_pipe_ctx;
 
-//builtin
-void		exec_builtin(char *s);
-int			is_builtin(char *tmp);
-void		export_handle2(char *str);
-void		export_handle(char *str);
-void		print_dir(void);
-void		printenv(void);
-int			get_index(char *key);
-void		export(char *var_name, char *var_val);
-void		unset_handle(char *str);
-void		mini_cd(char *tmp);
-void		pipe_handle(char *str, int n_pipe);
-int			env_len(char **envp);
-void		finder_dollar_env(char *s, int *i);
+typedef struct s_lex_state
+{
+	t_token	*head;
+	t_token	*tail;
+}	t_lex_state;
 
-//echo
-void		echo_canalizer(char *str);
-void		echo_handle(char *s, t_utils utils);
-char		*ft_echo_substr(char *str, int start, int end);
-void		sngle_quote_incheck(char *s, int *i);
-void		dble_quote_incheck(char *s, int *i);
-void		echo_withn(char *s);
-void		echo_withoutn(char *s);
-int			n_check(char *str);
-int			check_quotes(char *s, t_utils utils);
-int			is_echo(char *s);
-int			isonlyecho(char *s);
+typedef struct s_expand_ctx
+{
+	char	in_quote;
+	char	*res;
+}	t_expand_ctx;
 
-//libft
-char		**ft_split(const char *s, char c);
-void		ft_putstr(char *str);
-void		ft_putnstr(char *str, int n);
-void		ft_lstadd_back(t_list **lst, t_list *new);
-t_list		*ft_lstnew(char *str);
-char		*ft_strjoin(char *s1, char *s2);
-char		*ft_strtrim(char *s1, char *set);
-char		*ft_substr(char *s, int start, unsigned int len);
-void		ft_putchar_fd(char c, int fd);
-char		*ft_strchr(const char *s, int c);
-int			ft_strlen(char *str);
-char		*ft_strcpy(char *dest, char *src);
-int			ft_strcmp(char *s1, char *s2);
-char		*ft_strdup(char *src);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		ft_putstr_fd(char *s, int fd);
-int			ft_islower(char *s1, char *s2, int n);
-int			ft_isalnum(int c);
-void		ft_putnbr_fd(int n, int fd);
-void		ft_putstrendl_fd(char *s, int fd);
+extern int		g_signal;
 
-//minishell
-void		init_shell(void);
-void		init_env(char **envp);
-void		takeinput(void);
-void		printexport(void);
-void		execsimple(char **parse);
-char		*find_path(char *cmdline);
-char		*find_value(char *key, char **envp);
-void		execpiped(t_list **mini, int countpiped);
-int			process_string(char *str);
-void		ft_free_str(char **str);
-void		run_signals(int sig);
+/* main / loop */
+void	shell_loop(t_shell *shell);
 
-//utils
-char		*ft_dlr_cnv(char *s);
-char		*create_prompt(void);
-t_list		**add_list(char **str, t_list **mini);
-int			count(char *str, char c);
-void		ft_lst_free(t_list **stackA);
-void		no_input_redir(int fd);
+/* signals */
+void	setup_parent_signals(void);
+void	setup_child_signals(void);
+void	setup_heredoc_signals(void);
 
-//directions
-void		command_router(char *str);
-void		execute_dir(char *s, int fd, int i);
-void		exec_redir(char *s, int fd, int i);
-int			redirect_in(char **str, int i);
-int			redirect_out(char **str, int i);
-void		here_doc2(char *file, char *eof);
-void		exec_fork(char **s, int fd, int i);
-int			check_another_redir(char **str, int i);
-void		redir2_out_handle(char **str, int i);
-void		redir_out_handle(char **str, int i);
-void		check_dir(char *str);
-void		redir2_in_handle(char **str, int i);
-void		redir_in_handle(char **str, int i);
-void		here_doc(char *file, char *eof);
-char		*sub_redir(char **str, int i);
-int			check_quotes2(char *s);
+/* prompt */
+char	*build_prompt(void);
+void	init_shell(void);
+
+/* tokenizer */
+t_token	*tokenize(const char *line, int *syntax_error);
+void	free_tokens(t_token *tokens);
+
+/* syntax */
+int		check_syntax(t_token *tokens, t_shell *shell);
+
+/* expansion */
+char	*expand_word(const char *raw, t_shell *shell);
+char	*expand_heredoc_line(const char *line, t_shell *shell);
+
+/* builder */
+t_cmd	*build_pipeline(t_token *tokens, t_shell *shell);
+void	free_cmds(t_cmd *cmds);
+
+/* env store */
+char	**env_copy(char **envp);
+char	*env_get(char **env, const char *key);
+int		env_set(char ***env, const char *key, const char *val);
+int		env_unset(char ***env, const char *key);
+int		env_has(char **env, const char *key);
+char	**env_sorted_copy(char **env);
+
+/* path resolve */
+char	*resolve_path(const char *cmd, char **env, int *errcode);
+
+/* heredoc */
+int		process_heredocs(t_cmd *cmds, t_shell *shell);
+
+/* redirections */
+int		apply_redirs(t_cmd *cmd, t_shell *shell);
+
+/* exec */
+int		is_builtin_name(const char *name);
+int		exec_builtin(t_cmd *cmd, t_shell *shell);
+void	exec_external(t_cmd *cmd, t_shell *shell);
+int		run_pipeline(t_cmd *cmds, t_shell *shell);
+
+/* builtins */
+int		builtin_echo(char **argv);
+int		builtin_cd(char **argv, t_shell *shell);
+int		builtin_pwd(char **argv);
+int		builtin_env(char **argv, t_shell *shell);
+int		builtin_export(char **argv, t_shell *shell);
+int		builtin_unset(char **argv, t_shell *shell);
+int		builtin_exit(char **argv, t_shell *shell);
+
+/* free helpers */
+void	ft_free_str(char **str);
+
+/* libft */
+char	**ft_split(const char *s, char c);
+void	ft_putstr(char *str);
+void	ft_putnstr(char *str, int n);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstnew(char *str);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strtrim(char *s1, char *set);
+char	*ft_substr(char *s, int start, unsigned int len);
+void	ft_putchar_fd(char c, int fd);
+char	*ft_strchr(const char *s, int c);
+int		ft_strlen(char *str);
+char	*ft_strcpy(char *dest, char *src);
+int		ft_strcmp(char *s1, char *s2);
+char	*ft_strdup(char *src);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_islower(char *s1, char *s2, int n);
+int		ft_isalnum(int c);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstrendl_fd(char *s, int fd);
+
 #endif
